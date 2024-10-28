@@ -5,7 +5,6 @@ import dev.ftb.mods.pncoceanaddons.depth.DepthUpgradeHandler;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.pneumatic_armor.ICommonArmorRegistry;
 import me.desht.pneumaticcraft.api.upgrade.PNCUpgrade;
-import me.desht.pneumaticcraft.common.pneumatic_armor.ArmorUpgradeRegistry;
 
 public class Upgrades {
     public static final PNCUpgrade DEPTH_UPGRADE = PneumaticRegistry.getInstance().getUpgradeRegistry()

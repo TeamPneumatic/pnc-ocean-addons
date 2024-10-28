@@ -1,7 +1,7 @@
 package dev.ftb.mods.pncoceanaddons.datagen;
 
-import dev.ftb.mods.pncoceanaddons.registry.ModItems;
 import dev.ftb.mods.pncoceanaddons.PNCOceanAddons;
+import dev.ftb.mods.pncoceanaddons.registry.ModItems;
 import me.desht.pneumaticcraft.api.lib.Names;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;

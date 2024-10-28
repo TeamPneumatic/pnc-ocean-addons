@@ -1,10 +1,8 @@
 package dev.ftb.mods.pncoceanaddons.datagen;
 
+import dev.ftb.mods.pncoceanaddons.PNCOceanAddons;
 import dev.ftb.mods.pncoceanaddons.depth.DepthUpgradeHandler;
 import dev.ftb.mods.pncoceanaddons.registry.ModItems;
-import dev.ftb.mods.pncoceanaddons.PNCOceanAddons;
-import dev.ftb.mods.pncoceanaddons.registry.Upgrades;
-import me.desht.pneumaticcraft.api.lib.Names;
 import me.desht.pneumaticcraft.api.pneumatic_armor.IArmorUpgradeHandler;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
