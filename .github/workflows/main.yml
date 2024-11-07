@@ -1,0 +1,49 @@
+name: "Build applicable branches on push or pull request"
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events for the branches listed
+on:
+  push:
+    branches: [ "1.*" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    if: |
+      !contains(github.event.head_commit.message, '[ci skip]')
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 21
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Remove any generated assets/data
+        run: rm -rf ./src/generated
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          cache-read-only: false
+      - name: Generate assets & data
+        run: ./gradlew runData --no-daemon
+      - name: Validate assets
+        run: test -d ./src/generated -a -d ./src/generated/resources/.cache
+      - name: Set up mod metadata
+        id: mod_meta
+        run: |
+          echo mc_version=$(grep ^minecraft_version= ./gradle.properties | cut -d= -f2) >> $GITHUB_OUTPUT
+      - name: Build JAR and Publish to Modmaven
+        run: ./gradlew build publishMavenPublicationToModmavenRepository --no-daemon
+        env:
+          MODMAVEN_USER: ${{ secrets.MODMAVEN_USER }}
+          MODMAVEN_PASSWORD: ${{ secrets.MODMAVEN_PASSWORD }}
+      - name: Discord notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        if:
+          env.DISCORD_WEBHOOK != null
+        with:
+          args: 'Build complete for project {{ EVENT_PAYLOAD.repository.full_name }} (Minecraft ${{ steps.mod_meta.outputs.mc_version}}): ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}.'
