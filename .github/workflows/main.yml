@@ -4,7 +4,7 @@ name: "Build applicable branches on push or pull request"
 # events for the branches listed
 on:
   push:
-    branches: [ "1.*" ]
+    branches: [ "main" ]
 
 jobs:
   build:
