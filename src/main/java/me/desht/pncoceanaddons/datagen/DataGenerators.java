@@ -1,6 +1,6 @@
-package dev.ftb.mods.pncoceanaddons.datagen;
+package me.desht.pncoceanaddons.datagen;
 
-import dev.ftb.mods.pncoceanaddons.PNCOceanAddons;
+import me.desht.pncoceanaddons.PNCOceanAddons;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;

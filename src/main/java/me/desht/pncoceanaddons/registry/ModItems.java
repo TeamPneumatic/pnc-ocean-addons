@@ -1,6 +1,6 @@
-package dev.ftb.mods.pncoceanaddons.registry;
+package me.desht.pncoceanaddons.registry;
 
-import dev.ftb.mods.pncoceanaddons.PNCOceanAddons;
+import me.desht.pncoceanaddons.PNCOceanAddons;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;

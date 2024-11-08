@@ -155,6 +155,16 @@ publishing {
         maven {
             url "file://${project.projectDir}/repo"
         }
+        if (System.getenv("MODMAVEN_USER") != null) {
+            maven {
+                name = "modmaven"
+                credentials {
+                    username System.getenv("MODMAVEN_USER")
+                    password System.getenv("MODMAVEN_PASSWORD")
+                }
+                url = "https://modmaven.dev/artifactory/local-releases/"
+            }
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-package dev.ftb.mods.pncoceanaddons;
+package me.desht.pncoceanaddons;
 
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

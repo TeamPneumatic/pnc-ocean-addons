@@ -1,6 +1,6 @@
-package dev.ftb.mods.pncoceanaddons.client;
+package me.desht.pncoceanaddons.client;
 
-import dev.ftb.mods.pncoceanaddons.registry.Upgrades;
+import me.desht.pncoceanaddons.registry.Upgrades;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.client.pneumatic_helmet.IClientArmorRegistry;
 import net.neoforged.bus.api.IEventBus;

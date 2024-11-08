@@ -1,10 +1,10 @@
-package dev.ftb.mods.pncoceanaddons;
+package me.desht.pncoceanaddons;
 
 import com.mojang.logging.LogUtils;
-import dev.ftb.mods.pncoceanaddons.client.ClientSetup;
-import dev.ftb.mods.pncoceanaddons.depth.DepthUtil;
-import dev.ftb.mods.pncoceanaddons.registry.ModItems;
-import dev.ftb.mods.pncoceanaddons.registry.Upgrades;
+import me.desht.pncoceanaddons.client.ClientSetup;
+import me.desht.pncoceanaddons.depth.DepthUtil;
+import me.desht.pncoceanaddons.registry.ModItems;
+import me.desht.pncoceanaddons.registry.Upgrades;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.upgrade.IUpgradeRegistry;
 import net.minecraft.client.Minecraft;
@@ -75,17 +75,6 @@ public class PNCOceanAddons {
         if (event.getTabKey().location().equals(ResourceLocation.parse("pneumaticcraft:default"))) {
             event.accept(ModItems.DEPTH_UPGRADE_1);
             event.accept(ModItems.DEPTH_UPGRADE_2);
-        }
-    }
-
-    // You can use EventBusSubscriber to automatically register all static methods in the class annotated with @SubscribeEvent
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event) {
-            // Some client setup code
-            LOGGER.info("HELLO FROM CLIENT SETUP");
-            LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
         }
     }
 }

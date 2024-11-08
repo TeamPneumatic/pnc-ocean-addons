@@ -1,9 +1,9 @@
-package dev.ftb.mods.pncoceanaddons.client;
+package me.desht.pncoceanaddons.client;
 
-import dev.ftb.mods.pncoceanaddons.depth.DepthUpgradeHandler;
-import dev.ftb.mods.pncoceanaddons.depth.DepthUtil;
-import dev.ftb.mods.pncoceanaddons.registry.ModItems;
-import dev.ftb.mods.pncoceanaddons.registry.Upgrades;
+import me.desht.pncoceanaddons.depth.DepthUpgradeHandler;
+import me.desht.pncoceanaddons.depth.DepthUtil;
+import me.desht.pncoceanaddons.registry.ModItems;
+import me.desht.pncoceanaddons.registry.Upgrades;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.client.IGuiAnimatedStat;
 import me.desht.pneumaticcraft.api.client.pneumatic_helmet.IArmorUpgradeClientHandler;
@@ -15,6 +15,7 @@ import me.desht.pneumaticcraft.client.pneumatic_armor.ClientArmorRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.neoforged.neoforge.common.util.Lazy;
 import org.jetbrains.annotations.NotNull;
@@ -24,6 +25,8 @@ public class DepthUpgradeClientHandler extends IArmorUpgradeClientHandler.Simple
 
     private final Lazy<IGuiAnimatedStat> depthStat = Lazy.of(this::createStat);
 
+    private double prevDepth = -1.0;
+
     public DepthUpgradeClientHandler() {
         super(Upgrades.depthUpgradeHandler);
     }
@@ -31,17 +34,17 @@ public class DepthUpgradeClientHandler extends IArmorUpgradeClientHandler.Simple
     @Override
     public void tickClient(ICommonArmorHandler armorHandler, boolean isEnabled) {
         double depth = DepthUtil.getDepth(armorHandler.getPlayer());
-        if (depth > 0.0) {
-            getStat().setTitle(Component.translatable("pnc_ocean_addons.depth_display", String.format("%3.1f", depth)));
-            int tier = armorHandler.getUpgradeCount(EquipmentSlot.LEGS, Upgrades.DEPTH_UPGRADE);
-            getStat().setTexture(Upgrades.DEPTH_UPGRADE.getItem(tier).getDefaultInstance());
-        } else {
-            getStat().setTitle(Component.empty());
+        if (Math.abs(depth - prevDepth) > Mth.EPSILON) {
+            IGuiAnimatedStat stat = getAnimatedStat();
+            if (depth > 0.0) {
+                stat.setTitle(Component.translatable("pnc_ocean_addons.depth_display", String.format("%3.1f", depth)));
+                int tier = armorHandler.getUpgradeCount(EquipmentSlot.LEGS, Upgrades.DEPTH_UPGRADE);
+                stat.setTexture(Upgrades.DEPTH_UPGRADE.getItem(tier).getDefaultInstance());
+            } else {
+                stat.setTitle(Component.empty());
+            }
         }
-    }
-
-    private @NotNull IGuiAnimatedStat getStat() {
-        return depthStat.get();
+        prevDepth = depth;
     }
 
     @Override
@@ -51,7 +54,7 @@ public class DepthUpgradeClientHandler extends IArmorUpgradeClientHandler.Simple
 
     @Override
     public IGuiAnimatedStat getAnimatedStat() {
-        return getStat();
+        return depthStat.get();
     }
 
     @Override

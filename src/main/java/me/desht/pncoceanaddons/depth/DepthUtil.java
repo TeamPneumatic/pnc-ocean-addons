@@ -1,8 +1,8 @@
-package dev.ftb.mods.pncoceanaddons.depth;
+package me.desht.pncoceanaddons.depth;
 
-import dev.ftb.mods.pncoceanaddons.Config;
-import dev.ftb.mods.pncoceanaddons.PNCOceanAddons;
-import dev.ftb.mods.pncoceanaddons.registry.Upgrades;
+import me.desht.pncoceanaddons.Config;
+import me.desht.pncoceanaddons.PNCOceanAddons;
+import me.desht.pncoceanaddons.registry.Upgrades;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.pneumatic_armor.ICommonArmorHandler;
 import me.desht.pneumaticcraft.common.PNCDamageSource;
