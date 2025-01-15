@@ -75,11 +75,17 @@ public class DepthUtil {
     }
 
     public static double getDepth(Player player) {
-        BlockPos headPos = BlockPos.containing(player.getEyePosition());
-        if (player.level().getBlockState(headPos).getBlock() instanceof LiquidBlock && player.level() instanceof ServerLevel sl) {
-            return Math.max(0.0, sl.getChunkSource().getGenerator().getSeaLevel() - player.getEyeY());
+        boolean headInFluid;
+        if (Config.HEAD_MUST_BE_IN_FLUID.get()) {
+            BlockPos headPos = BlockPos.containing(player.getEyePosition());
+            headInFluid = player.level().getBlockState(headPos).getBlock() instanceof LiquidBlock;
+        } else {
+            headInFluid = true;
         }
-        return 0.0;
+
+        return headInFluid && player.level() instanceof ServerLevel sl ?
+                Math.max(0.0, sl.getChunkSource().getGenerator().getSeaLevel() - player.getEyeY()) :
+                0.0;
     }
 
     private static int getMaxSafeDepth(int nUpgrades) {

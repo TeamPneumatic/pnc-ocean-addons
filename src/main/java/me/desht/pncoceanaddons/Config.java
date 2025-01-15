@@ -25,6 +25,10 @@ public class Config {
             .comment("Depth per second dealt to players who are in too deep")
             .defineInRange("depth_damage", 2.0, 0.0, Double.MAX_VALUE);
 
+    public static final ModConfigSpec.BooleanValue HEAD_MUST_BE_IN_FLUID = BUILDER
+            .comment("When true, the player's head must be in a fluid block to trigger depth checks; when false, only distance below the dimension's sea level is checked for")
+            .define("head_must_be_in_fluid", true);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     @SubscribeEvent
