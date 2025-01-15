@@ -3,31 +3,32 @@ package me.desht.pncoceanaddons;
 import com.mojang.logging.LogUtils;
 import me.desht.pncoceanaddons.client.ClientSetup;
 import me.desht.pncoceanaddons.depth.DepthUtil;
+import me.desht.pncoceanaddons.net.NetHandler;
+import me.desht.pncoceanaddons.net.NotifySeaLevelPacket;
 import me.desht.pncoceanaddons.registry.ModItems;
 import me.desht.pncoceanaddons.registry.Upgrades;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.upgrade.IUpgradeRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
-import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
-import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.util.Lazy;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.tick.PlayerTickEvent;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.slf4j.Logger;
 
 @Mod(PNCOceanAddons.MODID)
@@ -43,7 +44,9 @@ public class PNCOceanAddons {
 
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::addCreative);
+        modEventBus.addListener(NetHandler::register);
         NeoForge.EVENT_BUS.addListener(this::playerTick);
+        NeoForge.EVENT_BUS.addListener(this::playerJoinLevel);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
 
@@ -56,6 +59,12 @@ public class PNCOceanAddons {
         Player player = event.getEntity();
         if (!player.level().isClientSide && !player.isCreative() && !player.isSpectator()) {
             DepthUtil.checkForDepth(player);
+        }
+    }
+
+    private void playerJoinLevel(EntityJoinLevelEvent event) {
+        if (event.getEntity() instanceof ServerPlayer player && player.level() instanceof ServerLevel serverLevel) {
+            PacketDistributor.sendToPlayer(player, new NotifySeaLevelPacket(serverLevel.getChunkSource().getGenerator().getSeaLevel()));
         }
     }
 

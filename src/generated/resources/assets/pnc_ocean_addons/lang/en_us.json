@@ -3,10 +3,11 @@
   "item.pnc_ocean_addons.depth_upgrade_2": "Depth Upgrade Mk2",
   "pnc_ocean_addons.configuration.depth_damage": "Depth crush damage per second",
   "pnc_ocean_addons.configuration.depth_upgrade_0_limit": "Max Safe Depth (no Depth Upgrade)",
-  "pnc_ocean_addons.configuration.depth_upgrade_1_limit": "Max safe depth (Depth Upgrade Mk1)",
-  "pnc_ocean_addons.configuration.depth_upgrade_2_limit": "Max safe depth (Depth Upgrade Mk2)",
+  "pnc_ocean_addons.configuration.depth_upgrade_1_limit": "Max Safe Depth (Depth Upgrade Mk1)",
+  "pnc_ocean_addons.configuration.depth_upgrade_2_limit": "Max Safe Depth (Depth Upgrade Mk2)",
   "pnc_ocean_addons.depth_alarm": "WARNING: Crush depth %sm exceeded!",
   "pnc_ocean_addons.depth_display": "Depth: %sm",
+  "pnc_ocean_addons.depth_upgrade.tooltip": "Max Safe Dive Depth: %sm",
   "pnc_ocean_addons.depth_warning": "WARNING: Approaching %sm crush depth!",
   "pneumaticcraft.armor.upgrade.pnc_ocean_addons.depth": "Depth Protection"
 }

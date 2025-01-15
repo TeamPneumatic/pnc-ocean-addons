@@ -20,10 +20,11 @@ public class ModLangProvider extends LanguageProvider {
         addMod("depth_warning", "WARNING: Approaching %sm crush depth!");
         addMod("depth_alarm", "WARNING: Crush depth %sm exceeded!");
         addMod("depth_display", "Depth: %sm");
+        addMod("depth_upgrade.tooltip", "Max Safe Dive Depth: %sm");
 
         addConfig("depth_upgrade_0_limit", "Max Safe Depth (no Depth Upgrade)");
-        addConfig("depth_upgrade_1_limit", "Max safe depth (Depth Upgrade Mk1)");
-        addConfig("depth_upgrade_2_limit", "Max safe depth (Depth Upgrade Mk2)");
+        addConfig("depth_upgrade_1_limit", "Max Safe Depth (Depth Upgrade Mk1)");
+        addConfig("depth_upgrade_2_limit", "Max Safe Depth (Depth Upgrade Mk2)");
         addConfig("depth_damage", "Depth crush damage per second");
 
         add(IArmorUpgradeHandler.getStringKey(DepthUpgradeHandler.ID), "Depth Protection");

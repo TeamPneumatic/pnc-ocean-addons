@@ -1,5 +1,7 @@
 package me.desht.pncoceanaddons.client;
 
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import me.desht.pncoceanaddons.depth.DepthUpgradeHandler;
 import me.desht.pncoceanaddons.depth.DepthUtil;
 import me.desht.pncoceanaddons.registry.ModItems;
@@ -15,20 +17,27 @@ import me.desht.pneumaticcraft.client.pneumatic_armor.ClientArmorRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.common.util.Lazy;
-import org.jetbrains.annotations.NotNull;
 
 public class DepthUpgradeClientHandler extends IArmorUpgradeClientHandler.SimpleToggleableHandler<DepthUpgradeHandler> {
     private static final StatPanelLayout DEFAULT_LAYOUT = StatPanelLayout.expandsLeft(0.995f, 0.7f);
 
-    private final Lazy<IGuiAnimatedStat> depthStat = Lazy.of(this::createStat);
+    private static final Object2IntMap<ResourceLocation> DEPTH_MAP = new Object2IntOpenHashMap<>();
 
     private double prevDepth = -1.0;
+    private final Lazy<IGuiAnimatedStat> depthStat = Lazy.of(this::createStat);
 
     public DepthUpgradeClientHandler() {
         super(Upgrades.depthUpgradeHandler);
+    }
+
+    public static void recordSeaLevel(Level level, int seaLevel) {
+        DEPTH_MAP.put(level.dimension().location(), seaLevel);
     }
 
     @Override
@@ -70,6 +79,10 @@ public class DepthUpgradeClientHandler extends IArmorUpgradeClientHandler.Simple
     @Override
     public IOptionPage getGuiOptionsPage(IGuiScreen screen) {
         return new OptionsPage(screen, this);
+    }
+
+    public static int getClientSeaLevel(Player player) {
+        return DEPTH_MAP.getOrDefault(player.level().dimension().location(), 64);
     }
 
     private IGuiAnimatedStat createStat() {

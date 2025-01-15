@@ -2,6 +2,7 @@ package me.desht.pncoceanaddons.depth;
 
 import me.desht.pncoceanaddons.Config;
 import me.desht.pncoceanaddons.PNCOceanAddons;
+import me.desht.pncoceanaddons.client.DepthUpgradeClientHandler;
 import me.desht.pncoceanaddons.registry.Upgrades;
 import me.desht.pneumaticcraft.api.PneumaticRegistry;
 import me.desht.pneumaticcraft.api.pneumatic_armor.ICommonArmorHandler;
@@ -83,9 +84,13 @@ public class DepthUtil {
             headInFluid = true;
         }
 
-        return headInFluid && player.level() instanceof ServerLevel sl ?
-                Math.max(0.0, sl.getChunkSource().getGenerator().getSeaLevel() - player.getEyeY()) :
-                0.0;
+        return headInFluid ? Math.max(0.0, getSeaLevel(player) - player.getEyeY()) : 0.0;
+    }
+
+    private static int getSeaLevel(Player player) {
+        return player.level() instanceof ServerLevel sl ?
+                sl.getChunkSource().getGenerator().getSeaLevel() :
+                DepthUpgradeClientHandler.getClientSeaLevel(player);
     }
 
     private static int getMaxSafeDepth(int nUpgrades) {
