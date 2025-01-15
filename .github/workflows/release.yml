@@ -52,7 +52,7 @@ jobs:
         run: ./gradlew publishMods --no-daemon
         env:
           CHANGELOG: ${{ github.event.release.body }}
-          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
           BUILD_NUMBER: ${{ github.run_number }}
+#          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+#          DISCORD_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}

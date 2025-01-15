@@ -1,7 +1,16 @@
+import me.modmuss50.mpp.ReleaseType
+
 plugins {
     id 'java-library'
     id 'maven-publish'
     id 'net.neoforged.moddev' version '1.0.21'
+    id "me.modmuss50.mod-publish-plugin" version "0.7.2"
+}
+
+ext {
+    releaseTag = providers.environmentVariable("TAG").orElse("").get()
+    isAlpha = ext.releaseTag.contains("alpha")
+    isBeta = ext.releaseTag.contains("beta")
 }
 
 tasks.named('wrapper', Wrapper).configure {
@@ -177,5 +186,38 @@ idea {
     module {
         downloadSources = true
         downloadJavadoc = true
+    }
+}
+
+def releaseType = ext.isAlpha ? ReleaseType.ALPHA : (ext.isBeta ? ReleaseType.BETA : ReleaseType.STABLE)
+publishMods {
+    dryRun = providers.environmentVariable("CURSEFORGE_TOKEN").getOrNull() == null
+    changelog = providers.environmentVariable("CHANGELOG").orElse("dryrun")
+    version = mod_version
+    type = releaseType
+    file = jar.archiveFile
+    displayName = "${mod_name} ${mod_version} MC-${minecraft_version}"
+    modLoaders.add("neoforge")
+
+    curseforge {
+        projectId = curse_project_id
+        accessToken = providers.environmentVariable("CURSEFORGE_TOKEN")
+        minecraftVersions.add(minecraft_version)
+        projectSlug = "pnc-ocean-addons"
+        announcementTitle = "Download from Curseforge"
+        requires("pneumaticcraft-repressurized")
+    }
+
+//    modrinth {
+//        projectId = modrinth_project_id
+//        accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+//        minecraftVersions.add(minecraft_version)
+//        announcementTitle = "Download from Modrinth"
+//        requires("pneumaticcraft-repressurized")
+//    }
+
+    discord {
+        webhookUrl = providers.environmentVariable("DISCORD_WEBHOOK").orElse("dryrun")
+        content = changelog.map { "# ${mod_name} v${mod_version} for MC ${minecraft_version} has been released! \n" + it}.get().take(1999)
     }
 }
