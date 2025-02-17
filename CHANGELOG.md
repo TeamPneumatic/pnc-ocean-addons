@@ -6,6 +6,11 @@ Changes are in reverse chronological order; newest changes at the top.
 
 # Minecraft 1.21.1
 
+## [1.0.2]
+
+### Fixed
+* Fix creaking sounds continually playing in the death screen menu
+
 ## [1.0.1]
 
 ### Added
