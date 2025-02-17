@@ -57,7 +57,7 @@ public class PNCOceanAddons {
 
     private void playerTick(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
-        if (!player.level().isClientSide && !player.isCreative() && !player.isSpectator()) {
+        if (player.isAlive() && !player.level().isClientSide && !player.isCreative() && !player.isSpectator()) {
             DepthUtil.checkForDepth(player);
         }
     }
