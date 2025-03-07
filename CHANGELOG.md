@@ -6,6 +6,12 @@ Changes are in reverse chronological order; newest changes at the top.
 
 # Minecraft 1.21.1
 
+## [1.0.3]
+
+### Added
+* Added support for alternative armors for crush protection, using the `` item tag.
+  * Config setting: `require_full_tagged_set` if true requires _every_ piece to be in the tag; if false, one piece is enough
+
 ## [1.0.2]
 
 ### Fixed
