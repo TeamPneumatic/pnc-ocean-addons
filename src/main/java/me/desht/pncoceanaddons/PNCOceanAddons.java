@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
@@ -35,6 +36,9 @@ import org.slf4j.Logger;
 public class PNCOceanAddons {
     public static final String MODID = "pnc_ocean_addons";
     private static final Logger LOGGER = LogUtils.getLogger();
+
+    public static final TagKey<Item> CRUSH_DEPTH_PROTECTION
+            = TagKey.create(Registries.ITEM, ResourceLocation.parse("c:depth_crush_immune_wearables"));
 
     public static final Lazy<Item> LEGGINGS = Lazy.of(() ->
             BuiltInRegistries.ITEM.getOrThrow(ResourceKey.create(Registries.ITEM, PneumaticRegistry.RL("pneumatic_leggings"))));

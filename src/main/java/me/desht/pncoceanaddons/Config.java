@@ -29,6 +29,10 @@ public class Config {
             .comment("When true, the player's head must be in a fluid block to trigger depth checks; when false, only distance below the dimension's sea level is checked for")
             .define("head_must_be_in_fluid", true);
 
+    public static final ModConfigSpec.BooleanValue REQUIRE_FULL_TAGGED_SET = BUILDER
+            .comment("'c:depth_crush_immune_wearables' is an alternative to the Depth Upgrade to provide crush protection. When true, every piece of armor must be in the 'c:depth_crush_immune_wearables' to function as a Depth Upgrade Mk2. When false, only one piece is required.")
+            .define("require_full_tagged_set", true);
+
     static final ModConfigSpec SPEC = BUILDER.build();
 
     @SubscribeEvent

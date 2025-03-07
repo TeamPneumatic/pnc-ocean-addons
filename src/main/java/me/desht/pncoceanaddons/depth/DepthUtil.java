@@ -20,12 +20,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.LiquidBlock;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 public class DepthUtil {
     private static final Map<UUID, Long> LAST_ALARM_TIME = new HashMap<>();
     private static final Map<UUID, Long> LAST_WARN_TIME = new HashMap<>();
+
+    private static final List<EquipmentSlot> ARMOR_SLOTS = List.of(EquipmentSlot.FEET, EquipmentSlot.LEGS, EquipmentSlot.CHEST, EquipmentSlot.HEAD);
 
     public static void checkForDepth(Player player) {
         if (player.tickCount % 20 == 0) {
@@ -69,6 +72,22 @@ public class DepthUtil {
     }
 
     private static int getDepthUpgradeLevel(Player player) {
+        int nTagged = 0;
+        boolean requireAll = Config.REQUIRE_FULL_TAGGED_SET.get();
+        for (var slot : ARMOR_SLOTS) {
+            if (player.getItemBySlot(slot).is(PNCOceanAddons.CRUSH_DEPTH_PROTECTION)) {
+                if (!requireAll) {
+                    return Upgrades.DEPTH_UPGRADE.getMaxTier();
+                }
+                nTagged++;
+            } else if (requireAll) {
+                break;
+            }
+        }
+        if (nTagged == 4) {
+            return Upgrades.DEPTH_UPGRADE.getMaxTier();
+        }
+
         ItemStack leggings = player.getItemBySlot(EquipmentSlot.LEGS);
         return leggings.getItem() == PNCOceanAddons.LEGGINGS.get() ?
                 PneumaticRegistry.getInstance().getUpgradeRegistry().getUpgradeCount(leggings, Upgrades.DEPTH_UPGRADE) :
